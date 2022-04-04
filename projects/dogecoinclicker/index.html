@@ -31,7 +31,7 @@
             .clickerContainer img:active { transform: scale(0.99); }
             
             .shopButton {
-                background-color: #b5b5b5;
+                background-color: black;
                 transition: all .2s ease-in-out;
                 border-radius: 10px;
                 width: 100%;
@@ -98,6 +98,16 @@
                     <td id="amount"><span id="cursors">0</span></td>
                 </tr>
             </table>
+           <table class="shopButton  unselectable" onclick="buyCryptominer()">
+                <tr>
+                    <td id="image"><img src="images/cryptominer.png"></td>
+                    <td id="nameAndCost">
+                        <p>Cursor</p>
+                        <p><span id="cryptominercost">15</span> Dogecoin 1 dps</p>
+                    </td>
+                    <td id="amount"><span id="cursors">0</span></td>
+                </tr>
+            </table>
         </div>
 
         <script>
@@ -105,6 +115,8 @@
             
             var cursorCost = 15;
             var cursors = 0;
+            var cryptominerCost = 100;
+            var cryptominers = 0;
           
             
             
@@ -117,6 +129,19 @@
                     document.getElementById("score").innerHTML = score;
                     document.getElementById("cursorcost").innerHTML = cursorCost;
                     document.getElementById("cursors").innerHTML = cursors;
+                    updateScorePerSecond();
+                }
+            }
+            
+            function buyCursor() {
+                if (score >= cryptominersCost) {
+                    score = score - cryptominersCost;
+                    cryptominers = cryptominers + 1;
+                    cryptominerCost = Math.round(cryptominersCost * 1.15);
+                    
+                    document.getElementById("score").innerHTML = score;
+                    document.getElementById("cryptominerscost").innerHTML = cursorCost;
+                    document.getElementById("cryptominers").innerHTML = cursors;
                     updateScorePerSecond();
                 }
             }
@@ -138,13 +163,19 @@
                 if (typeof savedGame.score !== "undefined") score = savedGame.score;
                 if (typeof savedGame.cursorCost !== "undefined") cursorCost = savedGame.cursorCost;
                 if (typeof savedGame.cursors !== "undefined") cursors = savedGame.cursors;
-            }
+                var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+                if (typeof savedGame.score !== "undefined") score = savedGame.score;
+                if (typeof savedGame.cryptominerCost !== "undefined") cryptominerCost = savedGame.cryptominerCost;
+                if (typeof savedGame.cryptominers!== "undefined") cryptominers = savedGame.cryptominers;
+            
             
             function saveGame() {
                 var gameSave = {
                     score: score,
                     cursorCost: cursorCost,
                     cursors: cursors,
+                    cryptominerCost: cryptominerCost,
+                    cryptominers: cryptominers,
                 };
                 localStorage.setItem("gameSave", JSON.stringify(gameSave));
             }
@@ -163,6 +194,8 @@
                 document.getElementById("score").innerHTML = score;
                 document.getElementById("cursorcost").innerHTML = cursorCost;
                 document.getElementById("cursors").innerHTML = cursors;
+                document.getElementById("cryptominercost").innerHTML = cursorCost;
+                document.getElementById("cryptominers").innerHTML = cursors;
             };
             
             setInterval(function() {
