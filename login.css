@@ -204,7 +204,7 @@ body {
 .user_para {
     color: fff;
 }
-.box a
+.box a {
     width: 10rem;
     border: 2px solid rgb(0, 255, 224);
     border-radius: 23px;
@@ -216,3 +216,4 @@ body {
     background: none;
     color: white;
     text-transform: uppercase;
+}
