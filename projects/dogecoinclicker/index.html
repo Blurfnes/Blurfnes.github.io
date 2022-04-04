@@ -1,0 +1,188 @@
+<HTML>
+    <head>
+        <title>Dogecoin Clicker</title>
+        
+        <style>
+            .sectionLeft {
+                float: left;
+                width: 80%;
+            }
+            
+            .sectionRight {
+                float: right;
+                width: 20%;
+            }
+            
+            .scoreContainer {
+                background-color: rgb(238, 238, 238, 0.6);
+                width: 50%;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            
+            .clickerContainer img {
+                position: relative;
+                transition: all .1s ease-in-out;
+            }
+            
+            .clickerContainer img:hover { transform: scale(1.10); }
+            .clickerContainer img:active { transform: scale(0.99); }
+            
+            .shopButton {
+                background-color: #b5b5b5;
+                transition: all .2s ease-in-out;
+                border-radius: 10px;
+                width: 100%;
+                margin: 10px 0px 10px 0px;
+            }
+            
+            .shopButton:hover {
+                background-color: #c7c7c7;
+                transition: all .2s ease-in-out;
+            }
+            
+            .shopButton #nameAndCost p {
+               margin: 0px;
+                width: 60%;
+            }
+            
+            .shopButton #nameAndCost p:first-of-type {
+                font-size: 24px;
+            }
+            
+            .shopButton #amount {
+                font-size: 48px;
+                color: #595959;
+                font-family: impact;
+                width: 15%;
+            }
+            
+            .sectionFooter {
+                margin-top: 20%;
+            }
+            
+            .unselectable {
+                user-select: none;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div class="sectionLeft">
+            <center>
+                <div class="scoreContainer unselectable">
+                    <span id="score">0</span> Dogecoin<br>
+                    <span id="scorepersecond">0</span> Dogecoin per second
+                </div>
+                <br>
+                <div class="clickerContainer unselectable">
+                    <img src="images/dogecoin.png" height="256px" width="256px" onclick="addToScore(1)">
+                </div>
+            </center>
+            
+            <div class="sectionFooter unselectable">
+                <button onclick="resetGame();">Reset Progress</button>
+            </div>
+        </div>
+        
+        <div class="sectionRight">
+            <table class="shopButton  unselectable" onclick="buyCursor()">
+                <tr>
+                    <td id="image"><img src="images/cursor.png"></td>
+                    <td id="nameAndCost">
+                        <p>Cursor</p>
+                        <p><span id="cursorcost">15</span> Dogecoin 1 dps</p>
+                    </td>
+                    <td id="amount"><span id="cursors">0</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <script>
+            var score = 0;
+            
+            var cursorCost = 15;
+            var cursors = 0;
+          
+            
+            
+            function buyCursor() {
+                if (score >= cursorCost) {
+                    score = score - cursorCost;
+                    cursors = cursors + 1;
+                    cursorCost = Math.round(cursorCost * 1.15);
+                    
+                    document.getElementById("score").innerHTML = score;
+                    document.getElementById("cursorcost").innerHTML = cursorCost;
+                    document.getElementById("cursors").innerHTML = cursors;
+                    updateScorePerSecond();
+                }
+            }
+            
+          
+            
+            function addToScore(amount) {
+                score = score + amount;
+                document.getElementById("score").innerHTML = score;
+            }
+            
+            function updateScorePerSecond() {
+                scorePerSecond = cursors
+                document.getElementById("scorepersecond").innerHTML = scorePerSecond;
+            }
+            
+            function loadGame() {
+                var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+                if (typeof savedGame.score !== "undefined") score = savedGame.score;
+                if (typeof savedGame.cursorCost !== "undefined") cursorCost = savedGame.cursorCost;
+                if (typeof savedGame.cursors !== "undefined") cursors = savedGame.cursors;
+            }
+            
+            function saveGame() {
+                var gameSave = {
+                    score: score,
+                    cursorCost: cursorCost,
+                    cursors: cursors,
+                };
+                localStorage.setItem("gameSave", JSON.stringify(gameSave));
+            }
+            
+            function resetGame() {
+                if(confirm("All cheez will be lost FOREVER! Are you sure???")) {
+                    var gameSave = {};
+                    localStorage.setItem("gameSave", JSON.stringify(gameSave));
+                    location.reload();
+                }
+            }
+            
+            window.onload = function() {
+                loadGame();
+                updateScorePerSecond();
+                document.getElementById("score").innerHTML = score;
+                document.getElementById("cursorcost").innerHTML = cursorCost;
+                document.getElementById("cursors").innerHTML = cursors;
+            };
+            
+            setInterval(function() {
+                score = score + cursors * 1;
+        
+                document.getElementById("score").innerHTML = score;
+                
+                document.title = score + " cheez - Cheezburger Clicker";
+            }, 1000);
+            
+            setInterval(function() {
+                saveGame();
+            }, 30000);
+            
+            document.addEventListener("keydown", function(event) {
+                if (event.ctrlKey && event.which == 83) {
+                    event.preventDefault();
+                    saveGame();
+                }
+            }, false);
+        </script>
+    </body>
+</HTML>
