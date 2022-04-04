@@ -109,7 +109,6 @@ body {
 }
 
 .box input[type="submit"] {
-.box a
     width: 10rem;
     border: 2px solid rgb(0, 255, 224);
     border-radius: 23px;
@@ -205,3 +204,15 @@ body {
 .user_para {
     color: fff;
 }
+.box a
+    width: 10rem;
+    border: 2px solid rgb(0, 255, 224);
+    border-radius: 23px;
+    text-align: center;
+    margin: auto;
+    /* margin-bottom: 10px; */
+    padding: 10px;
+    outline: none;
+    background: none;
+    color: white;
+    text-transform: uppercase;
