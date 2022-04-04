@@ -109,6 +109,7 @@ body {
 }
 
 .box input[type="submit"] {
+.box a
     width: 10rem;
     border: 2px solid rgb(0, 255, 224);
     border-radius: 23px;
