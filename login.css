@@ -216,4 +216,6 @@ body {
     background: none;
     color: white;
     text-transform: uppercase;
+    decoration: none;
+    font-size: .29rem
 }
